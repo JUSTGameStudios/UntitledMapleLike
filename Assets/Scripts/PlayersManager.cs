@@ -26,9 +26,3 @@ public class PlayersManager : NetworkSingleton<PlayersManager> {
     };
   }
 }
-
-
-
-//Logger.Instance.LogInfo($"{id} just connected...");
-//Logger.Instance.LogInfo($"{id} disconnected...");
-

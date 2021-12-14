@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour {
   [SerializeField]
   private TextMeshProUGUI playersInGameText;
 
+  private bool hasServerStarted;
+
   private void Awake() {
     Cursor.visible = true;
   }
@@ -27,21 +29,23 @@ public class UIManager : MonoBehaviour {
   }
 
   private void Start() {
-    startHostButton.onClick.AddListener(() => {
-      if (NetworkManager.Singleton.StartHost()) {
-        Logger.Instance.LogInfo("Host started...");
-      } else {
-        Logger.Instance.LogInfo("Host could not be started...");
-      }
+
+    // START SERVER
+    startServerButton?.onClick.AddListener(() => {
+      if (NetworkManager.Singleton.StartServer())
+        Logger.Instance.LogInfo("Server started...");
+      else
+        Logger.Instance.LogInfo("Unable to start server...");
     });
 
-    startServerButton.onClick.AddListener(() => {
-      if (NetworkManager.Singleton.StartServer()) {
-        Logger.Instance.LogInfo("Server started...");
-      } else {
-        Logger.Instance.LogInfo("Server could not be started...");
-      }
+    // START HOST
+    startHostButton?.onClick.AddListener(async () => {
+      if (NetworkManager.Singleton.StartHost())
+        Logger.Instance.LogInfo("Host started...");
+      else
+        Logger.Instance.LogInfo("Unable to start host...");
     });
+
 
     startClientButton.onClick.AddListener(() => {
       if (NetworkManager.Singleton.StartClient()) {
@@ -50,6 +54,16 @@ public class UIManager : MonoBehaviour {
         Logger.Instance.LogInfo("Client could not be started...");
       }
     });
+
+    // STATUS TYPE CALLBACKS
+    NetworkManager.Singleton.OnClientConnectedCallback += (id) => {
+      Logger.Instance.LogInfo($"{id} just connected...");
+    };
+
+    NetworkManager.Singleton.OnServerStarted += () => {
+      hasServerStarted = true;
+    };
+
   }
 
 }
