@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour {
     });
 
     // START HOST
-    startHostButton?.onClick.AddListener(async () => {
+    startHostButton?.onClick.AddListener(() => {
       if (NetworkManager.Singleton.StartHost())
         Logger.Instance.LogInfo("Host started...");
       else

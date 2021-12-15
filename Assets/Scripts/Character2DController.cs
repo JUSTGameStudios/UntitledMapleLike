@@ -81,7 +81,8 @@ public class Character2DController : NetworkBehaviour {
 
   private void ClientMove() {
     if (networkInputDirection.Value != Vector2.zero) {
-      _rigidbody.position += new Vector2(networkInputDirection.Value.x, 0);
+      //_rigidbody.position += new Vector2(networkInputDirection.Value.x, 0); // both bad
+      transform.position += new Vector3(networkInputDirection.Value.x, 0, 0);
     }
   }
 
